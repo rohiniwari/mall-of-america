@@ -6,15 +6,15 @@ const zone = siteContent.zones.find(z => z.id === 'dining');
 export default function DiningSlide({ active }) {
   const [vis, setVis] = useState(false);
   useEffect(() => {
-    if (active) { const t = setTimeout(() => setVis(true), 80); return () => clearTimeout(t); }
-    else setVis(false);
+    const t = setTimeout(() => setVis(active), active ? 80 : 0);
+    return () => clearTimeout(t);
   }, [active]);
 
   return (
     <section className="slide" id="slide-dining" aria-label="Fine Dining" style={styles.slide}>
       <div style={styles.bgGlow} aria-hidden="true" />
 
-      <div style={styles.inner}>
+      <div className="slide-inner reverse" style={styles.innerOverride}>
         {/* Left: content */}
         <div style={{ ...styles.content, opacity: vis ? 1 : 0, transform: vis ? 'none' : 'translateX(-40px)', transition: 'all 0.85s ease 0.1s' }}>
           <p style={styles.eyebrow}><span style={{ ...styles.dot, background: zone.accent }} />{zone.eyebrow}</p>
@@ -30,7 +30,7 @@ export default function DiningSlide({ active }) {
             ))}
           </div>
 
-          <div style={styles.metricRow}>
+          <div className="responsive-grid-2" style={styles.metricRow}>
             {[
               { v: '+47', u: 'minutes', d: 'Avg. visit duration increase' },
               { v: '22%', u: 'of revenue', d: 'Dining share of total mall sales' },
@@ -50,8 +50,8 @@ export default function DiningSlide({ active }) {
 
         {/* Right: real photo */}
         <div style={{ ...styles.visual, opacity: vis ? 1 : 0, transform: vis ? 'none' : 'translateX(40px)', transition: 'all 0.85s ease 0.25s' }}>
-          <div style={styles.imageFrame}>
-            <video src="/15067115_2560_1440_30fps.mp4" autoPlay muted loop playsInline style={styles.video} />
+          <div className="video-frame" style={styles.imageFrame}>
+            <video src="/15067115_2560_1440_30fps.mp4" autoPlay muted loop playsInline />
             <div style={styles.imgOverlay} />
             <div className="glass-card" style={{ ...styles.badge, borderColor: zone.accent }}>
               <span style={{ ...styles.badgeVal, color: zone.accent }}>100+</span>
@@ -67,11 +67,8 @@ export default function DiningSlide({ active }) {
 const styles = {
   slide: { background: 'linear-gradient(135deg,#050c05 0%,#080808 100%)', justifyContent: 'center' },
   bgGlow: { position: 'absolute', top: '-20%', left: '-10%', width: '600px', height: '600px', borderRadius: '50%', background: 'radial-gradient(circle,rgba(109,189,124,0.06) 0%,transparent 70%)', pointerEvents: 'none' },
-  inner: {
-    maxWidth: '1280px', width: '100%', margin: '0 auto',
-    padding: '0 clamp(20px,5vw,80px)',
-    display: 'grid', gridTemplateColumns: '1fr 1fr',
-    gap: 'clamp(32px,5vw,80px)', alignItems: 'center', position: 'relative', zIndex: 1,
+  innerOverride: {
+    position: 'relative', zIndex: 1,
   },
   content: { display: 'flex', flexDirection: 'column', gap: '20px' },
   eyebrow: { display: 'flex', alignItems: 'center', gap: '10px', fontFamily: "'Inter', sans-serif", fontSize: '0.68rem', fontWeight: 500, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#6dbd7c' },

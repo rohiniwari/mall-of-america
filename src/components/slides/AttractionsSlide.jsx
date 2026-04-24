@@ -13,19 +13,19 @@ const attractions = [
 export default function AttractionsSlide({ active }) {
   const [vis, setVis] = useState(false);
   useEffect(() => {
-    if (active) { const t = setTimeout(() => setVis(true), 80); return () => clearTimeout(t); }
-    else setVis(false);
+    const t = setTimeout(() => setVis(active), active ? 80 : 0);
+    return () => clearTimeout(t);
   }, [active]);
 
   return (
     <section className="slide" id="slide-attractions" aria-label="Attractions & Theme Park" style={styles.slide}>
       <div style={styles.bgGlow} aria-hidden="true" />
 
-      <div style={styles.inner}>
+      <div className="slide-inner" style={styles.innerOverride}>
         {/* Left: SVG park illustration */}
         <div style={{ ...styles.visual, opacity: vis ? 1 : 0, transform: vis ? 'none' : 'translateX(-40px)', transition: 'all 0.85s ease 0.1s' }}>
-          <div style={styles.imageFrame}>
-            <video src="/20441628-uhd_3840_2160_50fps.mp4" autoPlay muted loop playsInline style={styles.video} />
+          <div className="video-frame" style={styles.imageFrame}>
+            <video src="/20441628-uhd_3840_2160_50fps.mp4" autoPlay muted loop playsInline />
             <div style={styles.imgOverlay} />
             <div className="glass-card" style={{ ...styles.badge, borderColor: zone.accent }}>
               <span style={{ ...styles.badgeVal, color: zone.accent }}>4M+</span>
@@ -40,7 +40,7 @@ export default function AttractionsSlide({ active }) {
           <h2 style={styles.h2}>{zone.title}</h2>
           <p style={styles.body}>{zone.body}</p>
 
-          <div style={styles.attractionGrid}>
+          <div className="responsive-grid-2" style={styles.attractionGrid}>
             {attractions.map(a => (
               <div key={a.name} className="glass-card" style={styles.attractionCard}>
                 <span style={styles.attrIcon}>{a.icon}</span>
@@ -63,16 +63,11 @@ export default function AttractionsSlide({ active }) {
 const styles = {
   slide: { background: 'linear-gradient(135deg,#070512 0%,#080808 100%)', justifyContent: 'center' },
   bgGlow: { position: 'absolute', bottom: '-20%', right: '-10%', width: '500px', height: '500px', borderRadius: '50%', background: 'radial-gradient(circle,rgba(124,110,247,0.08) 0%,transparent 70%)', pointerEvents: 'none' },
-  inner: {
-    maxWidth: '1280px', width: '100%', margin: '0 auto',
-    padding: '0 clamp(20px,5vw,80px)',
-    display: 'grid', gridTemplateColumns: '1fr 1fr',
-    gap: 'clamp(32px,5vw,80px)', alignItems: 'center', position: 'relative', zIndex: 1,
+  innerOverride: {
+    position: 'relative', zIndex: 1,
   },
   visual: {},
   imageFrame: { position: 'relative', aspectRatio: '4/3.5', border: '1px solid rgba(124,110,247,0.1)', borderRadius: '12px', overflow: 'hidden' },
-  img: { width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' },
-  video: { width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' },
   img: { width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' },
   imgOverlay: { position: 'absolute', inset: 0, background: 'linear-gradient(to bottom,transparent 60%,rgba(8,8,8,0.7) 100%)' },
   badge: { position: 'absolute', bottom: '20px', right: '20px', background: 'rgba(8,8,8,0.75)', backdropFilter: 'blur(12px)', border: '1px solid', borderRadius: '8px', padding: '10px 14px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px' },

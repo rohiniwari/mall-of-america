@@ -13,15 +13,15 @@ const platforms = [
 export default function EventsSlide({ active }) {
   const [vis, setVis] = useState(false);
   useEffect(() => {
-    if (active) { const t = setTimeout(() => setVis(true), 80); return () => clearTimeout(t); }
-    else setVis(false);
+    const t = setTimeout(() => setVis(active), active ? 80 : 0);
+    return () => clearTimeout(t);
   }, [active]);
 
   return (
     <section className="slide" id="slide-events" aria-label="Events & Platform" style={styles.slide}>
       <div style={styles.bgGlow} aria-hidden="true" />
 
-      <div style={styles.inner}>
+      <div className="slide-inner reverse" style={styles.innerOverride}>
         {/* Left: content */}
         <div style={{ ...styles.content, opacity: vis ? 1 : 0, transform: vis ? 'none' : 'translateX(-40px)', transition: 'all 0.85s ease 0.1s' }}>
           <p style={styles.eyebrow}><span style={{ ...styles.dot, background: zone.accent }} />{zone.eyebrow}</p>
@@ -43,8 +43,8 @@ export default function EventsSlide({ active }) {
 
         {/* Right: platform cards */}
         <div style={{ ...styles.right, opacity: vis ? 1 : 0, transform: vis ? 'none' : 'translateX(40px)', transition: 'all 0.85s ease 0.25s' }}>
-          <div style={styles.imageFrame}>
-            <video src="/15586754_2160_3840_30fps.mp4" autoPlay muted loop playsInline style={styles.video} />
+          <div className="video-frame" style={styles.imageFrame}>
+            <video src="/15586754_2160_3840_30fps.mp4" autoPlay muted loop playsInline />
             <div style={styles.imgOverlay} />
             <div style={styles.statRow}>
               {[{ v: '200+', l: 'Events / Yr' }, { v: '12K', l: 'Capacity' }, { v: '+18%', l: 'Footfall' }].map(s => (
@@ -56,7 +56,7 @@ export default function EventsSlide({ active }) {
             </div>
           </div>
 
-          <div style={styles.platformGrid}>
+          <div className="responsive-grid-2" style={styles.platformGrid}>
             {platforms.map(p => (
               <div key={p.title} className="glass-card" style={styles.platformCard}>
                 <span style={styles.platIcon}>{p.icon}</span>
@@ -74,11 +74,8 @@ export default function EventsSlide({ active }) {
 const styles = {
   slide: { background: 'linear-gradient(135deg,#100808 0%,#080808 100%)', justifyContent: 'center' },
   bgGlow: { position: 'absolute', top: '-20%', right: '-10%', width: '500px', height: '500px', borderRadius: '50%', background: 'radial-gradient(circle,rgba(232,93,74,0.07) 0%,transparent 70%)', pointerEvents: 'none' },
-  inner: {
-    maxWidth: '1280px', width: '100%', margin: '0 auto',
-    padding: '0 clamp(20px,5vw,80px)',
-    display: 'grid', gridTemplateColumns: '1fr 1fr',
-    gap: 'clamp(32px,5vw,80px)', alignItems: 'center', position: 'relative', zIndex: 1,
+  innerOverride: {
+    position: 'relative', zIndex: 1,
   },
   content: { display: 'flex', flexDirection: 'column', gap: '20px' },
   eyebrow: { display: 'flex', alignItems: 'center', gap: '10px', fontFamily: "'Inter',sans-serif", fontSize: '0.68rem', fontWeight: 500, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#e85d4a' },
@@ -90,8 +87,6 @@ const styles = {
   cta: { fontFamily: "'Inter',sans-serif", fontSize: '0.72rem', fontWeight: 500, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#fff', padding: '12px 24px', borderRadius: '4px', display: 'inline-block', alignSelf: 'flex-start' },
   right: { display: 'flex', flexDirection: 'column', gap: '16px' },
   imageFrame: { position: 'relative', border: '1px solid rgba(232,93,74,0.1)', borderRadius: '12px', overflow: 'hidden' },
-  img: { width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' },
-  video: { width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' },
   img: { width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' },
   imgOverlay: { position: 'absolute', inset: 0, background: 'linear-gradient(to bottom,transparent 60%,rgba(15,5,5,0.7) 100%)' },
   statRow: { display: 'flex', justifyContent: 'space-around', padding: '16px 0' },

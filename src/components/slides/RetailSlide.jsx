@@ -6,8 +6,8 @@ const zone = siteContent.zones.find(z => z.id === 'retail');
 export default function RetailSlide({ active }) {
   const [vis, setVis] = useState(false);
   useEffect(() => {
-    if (active) { const t = setTimeout(() => setVis(true), 80); return () => clearTimeout(t); }
-    else setVis(false);
+    const t = setTimeout(() => setVis(active), active ? 80 : 0);
+    return () => clearTimeout(t);
   }, [active]);
 
   return (
@@ -16,11 +16,11 @@ export default function RetailSlide({ active }) {
       <div style={styles.bg} aria-hidden="true" />
       <div style={styles.overlay} aria-hidden="true" />
 
-      <div style={styles.inner}>
+      <div className="slide-inner" style={styles.innerOverride}>
         {/* Left visual */}
         <div style={{ ...styles.visual, opacity: vis ? 1 : 0, transform: vis ? 'none' : 'translateX(-40px)', transition: 'all 0.85s ease 0.1s' }}>
-          <div style={styles.imageFrame}>
-            <video src="/3226114-hd_1920_1080_25fps.mp4" autoPlay muted loop playsInline style={styles.video} />
+          <div className="video-frame" style={styles.imageFrame}>
+            <video src="/3226114-hd_1920_1080_25fps.mp4" autoPlay muted loop playsInline />
             <div style={styles.imgOverlay} />
             <div className="glass-card" style={styles.badge}>
               <span style={styles.badgeVal} className="gold-text">520+</span>
@@ -57,11 +57,8 @@ const styles = {
   slide: { background: 'linear-gradient(135deg,#0f0b04 0%,#080808 100%)', justifyContent: 'center' },
   bg: { position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 20% 50%, rgba(201,168,76,0.07) 0%, transparent 60%)', pointerEvents: 'none' },
   overlay: { position: 'absolute', inset: 0, background: 'linear-gradient(90deg, rgba(8,8,8,0) 0%, rgba(8,8,8,0.4) 100%)', pointerEvents: 'none' },
-  inner: {
-    maxWidth: '1280px', width: '100%', margin: '0 auto',
-    padding: '0 clamp(20px,5vw,80px)',
-    display: 'grid', gridTemplateColumns: '1fr 1fr',
-    gap: 'clamp(32px,5vw,80px)', alignItems: 'center', position: 'relative', zIndex: 1,
+  innerOverride: {
+    position: 'relative', zIndex: 1,
   },
   visual: {},
   imageFrame: {

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function ConnectSlide({ active }) {
+export default function ConnectSlide() {
   const [submitted, setSubmitted] = useState(false);
 
   return (
@@ -8,7 +8,7 @@ export default function ConnectSlide({ active }) {
       <div style={styles.bgGlow} aria-hidden="true" />
       <div style={styles.bgRight} aria-hidden="true" />
 
-      <div style={styles.inner}>
+      <div className="connect-inner" style={styles.innerOverride}>
         {/* Left: branding */}
         <div style={styles.left}>
           <div>
@@ -50,7 +50,7 @@ export default function ConnectSlide({ active }) {
             <form style={styles.form} onSubmit={e => { e.preventDefault(); setSubmitted(true); }} id="connect-form">
               <h3 style={styles.formTitle}>Begin the Conversation</h3>
 
-              <div style={styles.row}>
+              <div className="form-row" style={styles.row}>
                 <div style={styles.field}>
                   <label htmlFor="c-name" style={styles.label}>Full Name</label>
                   <input type="text" id="c-name" required placeholder="Alexander Sterling" style={styles.input} />
@@ -61,7 +61,7 @@ export default function ConnectSlide({ active }) {
                 </div>
               </div>
 
-              <div style={styles.row}>
+              <div className="form-row" style={styles.row}>
                 <div style={styles.field}>
                   <label htmlFor="c-brand" style={styles.label}>Brand / Organization</label>
                   <input type="text" id="c-brand" required placeholder="Luxe Global Group" style={styles.input} />
@@ -98,11 +98,8 @@ const styles = {
   slide: { background: '#0a0a0a', justifyContent: 'center' },
   bgGlow: { position: 'absolute', top: '50%', left: '-5%', transform: 'translateY(-50%)', width: '400px', height: '600px', borderRadius: '50%', background: 'radial-gradient(ellipse,rgba(201,168,76,0.07) 0%,transparent 70%)', pointerEvents: 'none' },
   bgRight: { position: 'absolute', top: 0, right: 0, bottom: 0, width: '55%', background: 'radial-gradient(ellipse at right,rgba(201,168,76,0.03) 0%,transparent 70%)', pointerEvents: 'none' },
-  inner: {
-    maxWidth: '1280px', width: '100%', margin: '0 auto',
-    padding: '0 clamp(20px,5vw,80px)',
-    display: 'grid', gridTemplateColumns: '2fr 3fr',
-    gap: 'clamp(32px,5vw,60px)', alignItems: 'center', position: 'relative', zIndex: 1,
+  innerOverride: {
+    position: 'relative', zIndex: 1,
   },
   left: { display: 'flex', flexDirection: 'column', gap: '32px' },
   h2: { fontFamily: "'Playfair Display',serif", fontSize: 'clamp(1.8rem,3.5vw,2.6rem)', fontWeight: 400, lineHeight: 1.2, color: '#fff', marginBottom: '16px' },

@@ -239,3 +239,162 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 @media (max-width: 768px) {
   :root { --section-pad: 60px; }
 }
+
+/* ============================================================
+   MOBILE RESPONSIVENESS — Slide Layouts
+   ============================================================ */
+
+/* Slide inner container — switches to single column on mobile */
+.slide-inner {
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 5vw, 80px);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(32px, 5vw, 80px);
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.slide-inner.reverse {
+  direction: rtl;
+}
+.slide-inner.reverse > * {
+  direction: ltr;
+}
+
+/* Video frame responsive */
+.video-frame {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  width: 100%;
+}
+.video-frame video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* Stat / attraction grids */
+.responsive-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+/* Form row */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* Connect slide inner */
+.connect-inner {
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 5vw, 80px);
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  gap: clamp(32px, 5vw, 60px);
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* Mobile overrides */
+@media (max-width: 768px) {
+  html { font-size: 15px; }
+
+  .slide-inner,
+  .connect-inner {
+    grid-template-columns: 1fr !important;
+    gap: 28px !important;
+    padding: 80px 20px 100px !important;
+    align-items: flex-start !important;
+  }
+
+  .slide-inner.reverse {
+    direction: ltr;
+  }
+
+  .responsive-grid-2 {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 8px !important;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  /* Video frames on mobile */
+  .video-frame {
+    aspect-ratio: 16 / 10 !important;
+    max-height: 40vh;
+  }
+
+  /* Progress dots — move to bottom center on mobile */
+  .deck-progress {
+    left: 50% !important;
+    top: auto !important;
+    bottom: 24px !important;
+    transform: translateX(-50%) !important;
+    flex-direction: row !important;
+    gap: 10px !important;
+  }
+
+  /* Slide controls — adjust for mobile */
+  .slide-controls {
+    bottom: 24px !important;
+    right: 20px !important;
+    gap: 10px !important;
+  }
+
+  .control-btn {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  /* Fixed logo bar */
+  header[aria-label="MOA Sales Deck branding"],
+  header[aria-label*="branding"] {
+    padding: 12px 20px !important;
+  }
+
+  /* Badge positioning */
+  .video-frame .glass-card {
+    bottom: 12px !important;
+    right: 12px !important;
+    padding: 8px 12px !important;
+  }
+
+  /* Reduce giant glow orbs on mobile */
+  [style*="radial-gradient(circle"] {
+    opacity: 0.6 !important;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 480px) {
+  html { font-size: 14px; }
+
+  .responsive-grid-2 {
+    grid-template-columns: 1fr !important;
+  }
+
+  .video-frame {
+    aspect-ratio: 16 / 11 !important;
+    max-height: 35vh;
+  }
+
+  .slide-controls {
+    display: none !important; /* Hide bottom controls on very small screens */
+  }
+}

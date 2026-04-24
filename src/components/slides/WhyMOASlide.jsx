@@ -30,13 +30,16 @@ function CountUp({ target, suffix, decimals = 0 }) {
 
 export default function WhyMOASlide({ active }) {
   const [vis, setVis] = useState(false);
-  useEffect(() => { if (active) { const t = setTimeout(() => setVis(true), 80); return () => clearTimeout(t); } else setVis(false); }, [active]);
+  useEffect(() => {
+    const t = setTimeout(() => setVis(active), active ? 80 : 0);
+    return () => clearTimeout(t);
+  }, [active]);
 
   return (
     <section className="slide" id="slide-why-moa" aria-label="Why MOA" style={styles.slide}>
       <div style={styles.bgGlow} aria-hidden="true" />
 
-      <div style={styles.inner}>
+      <div className="slide-inner" style={styles.innerOverride}>
         {/* Left: editorial */}
         <div style={{ ...styles.left, opacity: vis ? 1 : 0, transform: vis ? 'none' : 'translateX(-32px)', transition: 'all 0.8s ease 0.1s' }}>
           <p className="section-label">Demographics & Scale</p>
@@ -56,7 +59,7 @@ export default function WhyMOASlide({ active }) {
 
         {/* Right: stats grid */}
         <div style={{ ...styles.right, opacity: vis ? 1 : 0, transform: vis ? 'none' : 'translateX(32px)', transition: 'all 0.8s ease 0.25s' }}>
-          <div style={styles.statsGrid}>
+          <div className="responsive-grid-2" style={styles.statsGrid}>
             {stats.map((s, i) => (
               <div key={s.label} className="glass-card" style={{ ...styles.statCard, animationDelay: `${i * 0.1}s` }}>
                 <span style={styles.statIcon}>{s.icon}</span>
@@ -83,11 +86,7 @@ const styles = {
     background: 'radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%)',
     pointerEvents: 'none',
   },
-  inner: {
-    maxWidth: '1280px', width: '100%', margin: '0 auto',
-    padding: '0 clamp(20px,5vw,80px)',
-    display: 'grid', gridTemplateColumns: '1fr 1fr',
-    gap: 'clamp(32px,5vw,80px)', alignItems: 'center',
+  innerOverride: {
     position: 'relative', zIndex: 1,
   },
   left: { display: 'flex', flexDirection: 'column', gap: '20px' },
